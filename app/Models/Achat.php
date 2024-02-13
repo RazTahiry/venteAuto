@@ -5,19 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Achat extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'idCli';
+    protected $primaryKey = 'numAchat';
 
     protected $keyType = 'string';
 
     public $incrementing = false;
 
     protected $fillable = [
+        'numAchat',
         'idCli',
-        'nom',
-        'contact'
+        'idVoit',
+        'date',
+        'qte'
     ];
 }
