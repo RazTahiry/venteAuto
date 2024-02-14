@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Client;
+use App\Models\Voiture;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Achat extends Model
 {
@@ -22,4 +24,14 @@ class Achat extends Model
         'date',
         'qte'
     ];
+
+    public function voiture()
+    {
+        return $this->belongsTo(Voiture::class);
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

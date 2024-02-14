@@ -6,7 +6,7 @@
 
     <h1 class="d-flex justify-content-center align-items-center mb-3">@yield('title')</h1>
 
-    <form class="col col-lg-6 mx-auto align-items-center p-3 border rounded shadow bg-light" action="{{ route($voiture->exists ? 'admin.voiture.update' : 'admin.voiture.store', $voiture)}}" method="post">
+    <form class="col col-lg-6 mx-auto align-items-center p-3 border rounded shadow-sm bg-light" action="{{ route($voiture->exists ? 'admin.voiture.update' : 'admin.voiture.store', $voiture)}}" method="post">
 
         @csrf
         @method($voiture->exists ? 'put' : 'post')
@@ -19,7 +19,7 @@
         </div>
 
         <div>
-            <button class="btn btn-primary">
+            <button class="btn btn-dark">
                 @if ($voiture->exists)
                     Modifier
                 @else

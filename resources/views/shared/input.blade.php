@@ -6,9 +6,9 @@
     $value ??= '';
 @endphp
 
-<div @class(['form-group', $class])>
-    <label for="{{ $name }}">{{ $label }}</label>
+<div @class(['form-group form-floating mb-3', $class])>
     <input class="form-control @error($name) is-invalid @enderror" type="{{ $type }}" id="{{ $name }}" name="{{ $name }}" value="{{ old($name, $value) }}">
+    <label for="{{ $name }}">{{ $label }}</label>
     @error($name)
         <div class="invalid-feedback">
             {{ $message }}

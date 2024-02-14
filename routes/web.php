@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AchatController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\VoitureController;
 
@@ -22,4 +23,6 @@ Route::get('/', function () {
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('client', ClientController::class);
     Route::resource('voiture', VoitureController::class);
+    Route::resource('achat', AchatController::class);
+    Route::resource('dashboard', dashboardController::class);
 });

@@ -21,4 +21,8 @@ class Voiture extends Model
         'prix',
         'nombre'
     ];
+
+    public function achats() {
+        return $this->hasMany(Achat::class);
+    }
 }

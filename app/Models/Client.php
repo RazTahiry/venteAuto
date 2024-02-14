@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Achat;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
@@ -20,4 +21,8 @@ class Client extends Model
         'nom',
         'contact'
     ];
+
+    public function achats() {
+        return $this->hasMany(Achat::class);
+    }
 }

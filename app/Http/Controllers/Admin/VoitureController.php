@@ -15,7 +15,7 @@ class VoitureController extends Controller
     public function index()
     {
         return view('admin.voitures.index', [
-            'voitures' => Voiture::orderBy('created_at', 'desc')->paginate(15)
+            'voitures' => Voiture::orderBy('created_at', 'desc')->paginate(9)
         ]);
     }
 
