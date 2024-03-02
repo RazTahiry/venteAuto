@@ -4,17 +4,26 @@
 
 @section('content')
 
-    <div class="d-flex justify-content-between align-items-center">
-        <h1>@yield('title')</h1>
-        <a href="{{ route('admin.client.create') }}" class="btn btn-dark">Ajouter un client</a>
+    <h1 class="text-center">@yield('title')</h1>
+    <div class="d-flex justify-content-between align-items-center gap-2">
+        <a href="{{ route('admin.client.create') }}" class="btn btn-dark my-2"><i class="bi bi-person-plus"></i> Ajouter</a>
+
+        <div class="d-flex align-items-center">
+            <i class="bi bi-arrow-clockwise text-end me-2 fs-4" data-bs-toggle="tooltip" data-bs-placement="top" title="Actualiser" id="reloadIcon" style="cursor: pointer;"></i>
+            <form class="input-group my-2" style="max-width: 200px;" method="GET" action="{{ route('admin.client.index') }}">
+                @csrf
+                <input id="search" type="search" name="search" class="form-control" placeholder="Recherche..."value="{{ request()->input('search') }}">
+                <button id="rechercheClient" class="btn btn-dark" type="submit"><i class="bi bi-search bi-lg"></i></button>
+            </form>
+        </div>
     </div>
 
-    <table class="table table-striped table-responsive">
+    <table class="table table-striped table-responsive-sm">
         <thead>
             <tr>
-                <th scope="col">Id Client</th>
+                <th scope="col">#</th>
                 <th scope="col">Nom</th>
-                <th scope="col">Contact</th>
+                <th scope="col" class="text-center">Contact</th>
                 <th class="col text-end">Action</th>
             </tr>
         </thead>
@@ -22,17 +31,37 @@
 
             @foreach ($clients as $client)
                 <tr>
-                    <td  scope="row"> {{ $client->idCli }} </td>
+                    <td scope="row"> {{ $client->idCli }} </td>
                     <td> {{ $client->nom }} </td>
-                    <td> {{ $client->contact }} </td>
+                    <td class="text-center"> {{ $client->contact }} </td>
                     <td>
                         <div class="d-flex gap-2 w-100 justify-content-end">
                             <a href="{{ route('admin.client.edit', $client) }}" class="btn btn-sm btn-dark" data-bs-toggle="tooltip" data-bs-placement="top" title="Editer"><i class="bi bi-pencil-square"></i></a>
-                            <form action="{{ route('admin.client.destroy', $client) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"><i class="bi bi-trash3"></i></button>
-                            </form>
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#supprModal_{{ $client->idCli }}" data-bs-placement="top" title="Supprimer">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+
+                            <div class="modal fade" id="supprModal_{{ $client->idCli }}" tabindex="-1" aria-labelledby="supprModalLabel_{{ $client->idCli }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="supprModalLabel_{{ $client->idCli }}">Confirmation de suppression</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Voulez-vous vraiment supprimer ce client?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+                                        <form action="{{ route('admin.client.destroy', $client) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger">Confirmer</button>
+                                        </form>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>

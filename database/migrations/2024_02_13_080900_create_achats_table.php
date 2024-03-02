@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('achats', function (Blueprint $table) {
             $table->string('numAchat')->primary();
-            $table->string('idCli')->index()->cascadeOnUpdate();
+            $table->string('idCli')->index()->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('idCli')->references('idCli')->on('Clients');
-            $table->string('idVoit')->index()->cascadeOnUpdate();
+            $table->string('idVoit')->index()->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('idVoit')->references('idVoit')->on('Voitures');
             $table->date('date');
             $table->integer('qte');

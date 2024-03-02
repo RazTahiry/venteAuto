@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AchatFormRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,8 @@ class AchatFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idCli' => ['required', 'min:4'],
-            'idVoit' => ['required', 'min:4'],
-            'date' => ['required', 'date'],
-            'qte' => ['required', 'integer', 'min:1']
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:4']
         ];
     }
 }

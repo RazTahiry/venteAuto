@@ -6,6 +6,8 @@ use App\Models\Client;
 use App\Models\Voiture;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Achat extends Model
 {
@@ -15,7 +17,7 @@ class Achat extends Model
 
     protected $keyType = 'string';
 
-    public $incrementing = false;
+    public $incrementing = true;
 
     protected $fillable = [
         'numAchat',
@@ -25,13 +27,13 @@ class Achat extends Model
         'qte'
     ];
 
-    public function voiture()
+    public function voiture() : belongsTo
     {
-        return $this->belongsTo(Voiture::class);
+        return $this->belongsTo(Voiture::class, 'idVoit');
     }
 
-    public function client()
+    public function client() : BelongsTo
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class, 'idCli');
     }
 }

@@ -12,10 +12,17 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $clients = Client::query();
+
+        if ($search = $request->search) {
+            $clients->where('idCli', 'LIKE', '%'. $search . '%')
+                    ->orWhere('nom', 'LIKE', '%'. $search . '%');
+        }
+
         return view('admin.clients.index', [
-            'clients' => Client::orderBy('created_at', 'desc')->paginate(9)
+            'clients' => $clients->latest()->paginate()
         ]);
     }
 
@@ -34,8 +41,30 @@ class ClientController extends Controller
      */
     public function store(ClientFormRequest $request)
     {
-        $client = Client::create($request->validated());
-        return to_route('admin.client.index')->with('success', 'Le client a été ajouté avec succès');
+        try {
+
+            // Auto generation de clé primaire auto-incrementé (type string)
+            $dernierClient = Client::latest()->first(); // Obtenir le dernier client dans la BD
+            if ($dernierClient) { // Vraie si la table a déjà de données
+                $lastId = intval(substr($dernierClient->idCli, 2)); // Id du dernier client
+                $nextId = 'C-' . sprintf('%04d', $lastId + 1); // Id suivant = dernier client + 1
+            } else { // Si la table est encore vide
+                $nextId = 'C-0001';
+            }
+
+            $requestData = $request->validated();
+            $requestData['idCli'] = $nextId;
+
+            $client = Client::create($requestData);
+
+            return to_route('admin.client.index')->with('success', 'Le client a été ajouté avec succès');
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()->withInput()->withErrors(['error' => 'Erreur lors de l\'ajout du client. Veuillez réessayer.']);
+
+        }
+
     }
 
     /**
@@ -70,7 +99,11 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        $client->delete();
-        return to_route('admin.client.index')->with('success', 'Le client a été supprimé');
+        if ($client->achats()->exists()) {
+            return to_route('admin.client.index')->with('error', 'Ce client a des achats associés. Vous devez supprimer les achats avant de supprimer ce client.');
+        } else {
+            $client->delete();
+            return to_route('admin.client.index')->with('toast_success', 'Le client a été supprimé');
+        }
     }
 }

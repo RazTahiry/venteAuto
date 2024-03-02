@@ -12,10 +12,17 @@ class VoitureController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $voitures = Voiture::query();
+
+        if ($search = $request->search) {
+            $voitures->where('idVoit', 'LIKE', '%'. $search . '%')
+                    ->orWhere('Design', 'LIKE', '%'. $search . '%');
+        }
+
         return view('admin.voitures.index', [
-            'voitures' => Voiture::orderBy('created_at', 'desc')->paginate(9)
+            'voitures' => $voitures->latest()->paginate(10)
         ]);
     }
 
@@ -34,8 +41,30 @@ class VoitureController extends Controller
      */
     public function store(VoitureFormRequest $request)
     {
-        $voiture = Voiture::create($request->validated());
-        return to_route('admin.voiture.index')->with('success', 'Le voiture a été ajouté avec succès');
+        try {
+
+            // Auto generation de clé primaire auto-incrementé (type string)
+            $dernierVoiture = Voiture::latest()->first(); // Obtenir la dernière voiture dans la BD
+            if ($dernierVoiture) { // Vraie si la table a déjà de données
+                $lastId = intval(substr($dernierVoiture->idVoit, 2)); // Id de la dernière voiture
+                $nextId = 'V-' . sprintf('%04d', $lastId + 1); // Id suivant = dernière voiture + 1
+            } else { // Si la table est encore vide
+                $nextId = 'V-0001';
+            }
+
+            $requestData = $request->validated();
+            $requestData['idVoit'] = $nextId;
+
+            $voiture = Voiture::create($requestData);
+
+            return to_route('admin.voiture.index')->with('success', 'Le voiture a été ajouté avec succès');
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()->withInput()->withErrors(['error' => 'Erreur lors de l\'ajout de voiture. Veuillez réessayer.']);
+
+        }
+
     }
 
     /**
@@ -70,7 +99,11 @@ class VoitureController extends Controller
      */
     public function destroy(Voiture $voiture)
     {
-        $voiture->delete();
-        return to_route('admin.voiture.index')->with('success', 'Le voiture a été supprimé');
+        if ($voiture->achats()->exists()) {
+            return to_route('admin.voiture.index')->with('error', 'Cette voiture a des achats associés. Vous devez supprimer les achats avant de supprimer cette voiture.');
+        } else {
+            $voiture->delete();
+            return to_route('admin.voiture.index')->with('toast_success', 'Le voiture a été supprimé');
+        }
     }
 }

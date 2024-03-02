@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AchatController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\admin\dashboardController;
 use App\Http\Controllers\Admin\VoitureController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +19,15 @@ use App\Http\Controllers\Admin\VoitureController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::prefix('admin')->name('admin.')->group(function() {
+Route::post('/admin/view-pdf', [AchatController::class, 'viewPDF'])->name('view-pdf');
+
+Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
+Route::post('/login', [AuthController::class, 'dologin']);
+Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function() {
     Route::resource('client', ClientController::class);
     Route::resource('voiture', VoitureController::class);
     Route::resource('achat', AchatController::class);

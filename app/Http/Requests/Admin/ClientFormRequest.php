@@ -22,7 +22,6 @@ class ClientFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idCli' => ['required', 'min:4'],
             'nom' => ['required'],
             'contact' => ['required', 'min:10']
         ];

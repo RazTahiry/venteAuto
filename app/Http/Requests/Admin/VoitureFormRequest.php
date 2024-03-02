@@ -22,7 +22,6 @@ class VoitureFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idVoit' => ['required', 'min:4'],
             'Design' => ['required'],
             'prix' => ['required', 'integer', 'min:1000000'],
             'nombre' => ['required', 'integer', 'min:0']

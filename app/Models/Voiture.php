@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Achat;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Voiture extends Model
 {
@@ -23,6 +24,6 @@ class Voiture extends Model
     ];
 
     public function achats() {
-        return $this->hasMany(Achat::class);
+        return $this->hasMany(Achat::class, 'idVoit');
     }
 }
