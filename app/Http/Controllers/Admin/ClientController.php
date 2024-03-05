@@ -17,12 +17,12 @@ class ClientController extends Controller
         $clients = Client::query();
 
         if ($search = $request->search) {
-            $clients->where('idCli', 'LIKE', '%'. $search . '%')
-                    ->orWhere('nom', 'LIKE', '%'. $search . '%');
+            $clients->where('idCli', 'LIKE', '%' . $search . '%')
+                ->orWhere('nom', 'LIKE', '%' . $search . '%');
         }
 
         return view('admin.clients.index', [
-            'clients' => $clients->latest()->paginate()
+            'clients' => $clients->latest()->paginate(100)
         ]);
     }
 
@@ -58,13 +58,10 @@ class ClientController extends Controller
             $client = Client::create($requestData);
 
             return to_route('admin.client.index')->with('success', 'Le client a été ajouté avec succès');
-
         } catch (\Exception $e) {
 
             return redirect()->back()->withInput()->withErrors(['error' => 'Erreur lors de l\'ajout du client. Veuillez réessayer.']);
-
         }
-
     }
 
     /**

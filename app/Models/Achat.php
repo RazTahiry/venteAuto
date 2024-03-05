@@ -27,12 +27,12 @@ class Achat extends Model
         'qte'
     ];
 
-    public function voiture() : belongsTo
+    public function voiture(): belongsTo
     {
         return $this->belongsTo(Voiture::class, 'idVoit');
     }
 
-    public function client() : BelongsTo
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'idCli');
     }

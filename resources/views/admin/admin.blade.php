@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,11 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap-css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-icons/font/bootstrap-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/apps.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('Favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('Favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('Favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('Favicon/site.webmanifest') }}">
     <style>
         @layer reset {
             button {
@@ -16,24 +22,29 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container-fluid px-0">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand me-0" href="{{ route('home') }}" style="margin-top: -5px;"><i class="bi bi-car-front fs-4"></i> venteAuto</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <div class="container px-0">
+                <a class="navbar-brand me-0" href="{{ route('home') }}" style="margin-top: -3px;"><i
+                        class="bi bi-car-front fs-4"></i> venteAuto</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
 
                 @php
-                $route = request()->route()->getName();
+                    $route = request()->route()->getName();
                 @endphp
 
                 <div class="collapse navbar-collapse justify-content-between" id="navbarTogglerDemo01">
                     <div class="mx-auto">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a @class(['nav-link', 'active' => str_contains($route, 'dashboard.')]) href="{{ route('admin.dashboard.index') }}">Dashboard</a>
+                                <a @class(['nav-link', 'active' => str_contains($route, 'dashboard.')])
+                                    href="{{ route('admin.dashboard.index') }}">Dashboard</a>
                             </li>
                             <li class="nav-item">
                                 <a @class(['nav-link', 'active' => str_contains($route, 'client.')]) href="{{ route('admin.client.index') }}">Clients</a>
@@ -48,9 +59,11 @@
                     </div>
 
                     <div>
-                        <ul  class="navbar-nav">
+                        <ul class="navbar-nav">
                             <li class="nav-item">
-                                <button class="nav-link px-0" type="button" data-bs-toggle="modal" data-bs-target="#deconnexionModal"><i class="bi bi-box-arrow-right"></i> Déconnexion</button>
+                                <button class="nav-link px-0" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#deconnexionModal"><i class="bi bi-box-arrow-right"></i>
+                                    Déconnexion</button>
                             </li>
                         </ul>
                     </div>
@@ -58,7 +71,8 @@
             </div>
         </nav>
         @auth
-            <div class="modal fade" id="deconnexionModal" tabindex="-1" aria-labelledby="deconnexionModalLabel" aria-hidden="true">
+            <div class="modal fade" id="deconnexionModal" tabindex="-1" aria-labelledby="deconnexionModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -83,7 +97,7 @@
         @endauth
     </div>
 
-    <div class="container" style="margin-top: 70px;">
+    <div class="container px-0" style="margin-top: 70px;">
 
         @if (session('success'))
             <div style="display: none;">
@@ -101,4 +115,5 @@
     <script src="{{ asset('js/bootstrap-js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
+
 </html>

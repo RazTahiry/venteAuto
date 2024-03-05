@@ -1,20 +1,30 @@
 @extends('admin.admin')
 
-@section('title', $client->exists ? "Editer un client" : "Ajouter un client")
+@section('title', $client->exists ? 'Editer un client' : 'Ajouter un client')
 
 @section('content')
 
     <h1 class="d-flex justify-content-center align-items-center mb-3">@yield('title')</h1>
 
-    <form class="col col-lg-6 mx-auto align-items-center p-4 rounded shadow bg-light" action="{{ route($client->exists ? 'admin.client.update' : 'admin.client.store', $client)}}" method="post">
+    <form class="col col-lg-6 mx-auto align-items-center p-4 rounded shadow bg-light"
+        action="{{ route($client->exists ? 'admin.client.update' : 'admin.client.store', $client) }}" method="post">
 
         @csrf
         @method($client->exists ? 'put' : 'post')
 
         <div class="mb-3">
-            {{-- @include('shared.input', ['label' => 'Id Client', 'name' => 'idCli', 'id' => 'idCli', 'value' => $client->idCli]) --}}
-            @include('shared.input', ['label' => 'Nom du client', 'name' => 'nom', 'id' => 'nom', 'value' => $client->nom])
-            @include('shared.input', ['label' => 'Contact du client', 'name' => 'contact', 'id' => 'contact', 'value' => $client->contact])
+            @include('shared.input', [
+                'label' => 'Nom du client',
+                'name' => 'nom',
+                'id' => 'nom',
+                'value' => $client->nom,
+            ])
+            @include('shared.input', [
+                'label' => 'Contact du client',
+                'name' => 'contact',
+                'id' => 'contact',
+                'value' => $client->contact,
+            ])
         </div>
 
         <div>

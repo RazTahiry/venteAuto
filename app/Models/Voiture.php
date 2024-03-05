@@ -23,7 +23,8 @@ class Voiture extends Model
         'nombre'
     ];
 
-    public function achats() {
+    public function achats()
+    {
         return $this->hasMany(Achat::class, 'idVoit');
     }
 }

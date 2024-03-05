@@ -27,6 +27,8 @@ Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->nam
 Route::post('/login', [AuthController::class, 'dologin']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
+Route::get('admin/achat/create/{client_id}', [AchatController::class, 'create'])->name('admin.achat.create');
+
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function() {
     Route::resource('client', ClientController::class);
     Route::resource('voiture', VoitureController::class);

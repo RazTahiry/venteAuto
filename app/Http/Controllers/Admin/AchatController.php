@@ -23,12 +23,12 @@ class AchatController extends Controller
     {
         $achats = Achat::query();
 
-        if ($premiereDate = $request->premiereDate AND $secondDate = $request->secondDate) {
+        if ($premiereDate = $request->premiereDate and $secondDate = $request->secondDate) {
             $achats->whereBetween('date', [$premiereDate, $secondDate]);
         }
 
         return view('admin.achats.index', [
-            'achats' => $achats->latest()->paginate(10)
+            'achats' => $achats->latest()->paginate(100)
         ]);
     }
 
@@ -64,7 +64,6 @@ class AchatController extends Controller
                 DB::rollBack(); // Annuler la transaction
                 return redirect()->back()->withInput()->withErrors(['qte' => 'Quantité insuffisante de voitures disponibles.']);
                 return;
-
             } else {
 
                 // Auto generation de clé primaire auto-incrementé (type string)
@@ -87,15 +86,12 @@ class AchatController extends Controller
                 DB::commit();
 
                 return to_route('admin.achat.index')->with('success', 'L\'achat a été fait avec succès');
-
             }
-
         } catch (\Exception $e) {
             // Annuler la transaction en cas d'erreur
 
             DB::rollBack();
-            return redirect()->back()->withInput()->withErrors(['error' => 'Erreur lors de l\'achat. Veuillez réessayer, Erreur: '. $e->getMessage()]);
-
+            return redirect()->back()->withInput()->withErrors(['error' => 'Erreur lors de l\'achat. Veuillez réessayer, Erreur: ' . $e->getMessage()]);
         }
     }
 
@@ -140,7 +136,6 @@ class AchatController extends Controller
             DB::commit();
 
             return to_route('admin.achat.index')->with('success', 'L\'achat a été modifié avec succès');
-
         } else {
 
             $diff = ($request->qte - $achat->qte); // Difference entre la quantité d'achat avant et après la modification
@@ -152,7 +147,6 @@ class AchatController extends Controller
                 DB::rollBack(); // Annuler la transaction
                 return redirect()->back()->withInput()->withErrors(['qte' => 'Quantité insuffisante de voitures disponibles.']);
                 return;
-
             } else {
 
                 $achat->update($request->validated());
@@ -162,7 +156,6 @@ class AchatController extends Controller
                 DB::commit();
 
                 return to_route('admin.achat.index')->with('success', 'L\'achat a été modifié avec succès');
-
             }
         }
     }
@@ -187,7 +180,7 @@ class AchatController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->with('error', 'Erreur lors de la suppresion de l\'achat... Erreur: '. $e->getMessage());
+            return redirect()->back()->with('error', 'Erreur lors de la suppresion de l\'achat... Erreur: ' . $e->getMessage());
         }
     }
 
@@ -211,9 +204,9 @@ class AchatController extends Controller
             $achatId = $request->input('numAchat');
             $achat = Achat::findOrFail($achatId);
 
-            Carbon::setLocale('Fr');
+            Carbon::setLocale('fr');
             $date = Carbon::parse($achat->date);
-            $dateFormatee = $date->format('d F Y');
+            $dateFormatee = $date->translatedFormat('d F Y');
 
             // Vérifier si l'achat a un client associé
             if ($achat->client) {
@@ -241,7 +234,7 @@ class AchatController extends Controller
                 return redirect()->back()->with('error', 'L\'achat n\'a pas de client associé.');
             }
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Erreur lors de la création du facture... Erreur: '. $e->getMessage());
+            return redirect()->back()->with('error', 'Erreur lors de la création du facture... Erreur: ' . $e->getMessage());
         }
     }
 }

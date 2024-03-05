@@ -22,7 +22,8 @@ class Client extends Model
         'contact'
     ];
 
-    public function achats() {
+    public function achats()
+    {
         return $this->hasMany(Achat::class, 'idCli');
     }
 }

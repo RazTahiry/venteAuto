@@ -17,12 +17,12 @@ class VoitureController extends Controller
         $voitures = Voiture::query();
 
         if ($search = $request->search) {
-            $voitures->where('idVoit', 'LIKE', '%'. $search . '%')
-                    ->orWhere('Design', 'LIKE', '%'. $search . '%');
+            $voitures->where('idVoit', 'LIKE', '%' . $search . '%')
+                ->orWhere('Design', 'LIKE', '%' . $search . '%');
         }
 
         return view('admin.voitures.index', [
-            'voitures' => $voitures->latest()->paginate(10)
+            'voitures' => $voitures->latest()->paginate(100)
         ]);
     }
 
@@ -57,14 +57,11 @@ class VoitureController extends Controller
 
             $voiture = Voiture::create($requestData);
 
-            return to_route('admin.voiture.index')->with('success', 'Le voiture a été ajouté avec succès');
-
+            return to_route('admin.voiture.index')->with('success', 'La voiture a été ajouté avec succès');
         } catch (\Exception $e) {
 
             return redirect()->back()->withInput()->withErrors(['error' => 'Erreur lors de l\'ajout de voiture. Veuillez réessayer.']);
-
         }
-
     }
 
     /**
@@ -91,7 +88,7 @@ class VoitureController extends Controller
     public function update(VoitureFormRequest $request, Voiture $voiture)
     {
         $voiture->update($request->validated());
-        return to_route('admin.voiture.index')->with('success', 'Le voiture a été modifié avec succès');
+        return to_route('admin.voiture.index')->with('success', 'La voiture a été modifié avec succès');
     }
 
     /**
@@ -103,7 +100,7 @@ class VoitureController extends Controller
             return to_route('admin.voiture.index')->with('error', 'Cette voiture a des achats associés. Vous devez supprimer les achats avant de supprimer cette voiture.');
         } else {
             $voiture->delete();
-            return to_route('admin.voiture.index')->with('toast_success', 'Le voiture a été supprimé');
+            return to_route('admin.voiture.index')->with('toast_success', 'La voiture a été supprimé');
         }
     }
 }

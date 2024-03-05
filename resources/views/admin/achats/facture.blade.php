@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,8 @@
             margin-bottom: 40px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid black;
             padding: 5px;
         }
@@ -28,6 +30,7 @@
         }
     </style>
 </head>
+
 <body>
     <h3 class="titreFacture">Facture N°{{ sprintf('%03d', $numFact) }}</h3>
     <p>Date de facturation : {{ $dateFormatee }}</p>
@@ -51,8 +54,10 @@
                 <tr>
                     <td>{{ $achat->voiture->Design }}</td>
                     <td style="text-align: center">{{ $achat->qte }}</td>
-                    <td style="text-align: right">{{ number_format($achat->voiture->prix, thousands_separator: '.') }} Ar</td>
-                    <td style="text-align: right">{{ number_format($achat->qte * $achat->voiture->prix, thousands_separator: '.') }} Ar</td>
+                    <td style="text-align: right">{{ number_format($achat->voiture->prix, thousands_separator: '.') }}
+                        Ar</td>
+                    <td style="text-align: right">
+                        {{ number_format($achat->qte * $achat->voiture->prix, thousands_separator: '.') }} Ar</td>
                 </tr>
                 @php
                     $totalGeneral += $achat->qte * $achat->voiture->prix;
@@ -65,6 +70,8 @@
         </tbody>
     </table>
 
-    <p>Arrêté par la présente facture à la somme de {{ app('App\Http\Controllers\Admin\AchatController')->chiffreEnLettre($totalGeneral) }} ariary.</p>
+    <p>Arrêté par la présente facture à la somme de
+        {{ app('App\Http\Controllers\Admin\AchatController')->chiffreEnLettre($totalGeneral) }} ariary.</p>
 </body>
+
 </html>
