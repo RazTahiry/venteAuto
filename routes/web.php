@@ -21,13 +21,12 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('/admin/view-pdf', [AchatController::class, 'viewPDF'])->name('view-pdf');
+Route::post('/admin/achat/view-pdf', [AchatController::class, 'viewPDF'])->name('view-pdf');
+Route::post('/admin/download-pdf', [AchatController::class, 'downloadPDF'])->name('download-pdf');
 
 Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
 Route::post('/login', [AuthController::class, 'dologin']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-
-Route::get('admin/achat/create/{client_id}', [AchatController::class, 'create'])->name('admin.achat.create');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function() {
     Route::resource('client', ClientController::class);

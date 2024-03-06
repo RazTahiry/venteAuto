@@ -6,7 +6,12 @@
 
     <h1 class="text-center">@yield('title')</h1>
     <div class="d-flex justify-content-between align-items-center gap-2">
-        <a href="{{ route('admin.client.create') }}" class="btn btn-dark my-2"><i class="bi bi-person-plus"></i> Ajouter</a>
+        <div>
+            <a href="{{ route('admin.client.create') }}" class="btn btn-dark my-2"><i class="bi bi-person-plus"></i>
+                Ajouter</a>
+            <a href="{{ route('admin.achat.create') }}" class="btn btn-dark"><i class="bi bi-cart3 bi-lg"></i> Faire un
+                achat</a>
+        </div>
 
         <div class="d-flex align-items-center">
             <form class="input-group my-2" style="max-width: 200px;" method="GET"

@@ -6,7 +6,7 @@
 
     <h1 class="d-flex justify-content-center align-items-center mb-3">@yield('title')</h1>
 
-    <form class="mx-auto align-items-center p-4 rounded shadow bg-light col col-lg-6"
+    <form class="mx-auto align-items-center p-4 rounded shadow-lg col col-lg-6"
         action="{{ route($achat->exists ? 'admin.achat.update' : 'admin.achat.store', $achat) }}" method="post">
 
         @csrf
@@ -23,7 +23,7 @@
                 @foreach ($clients as $client)
                     @if ($achat->exists)
                         @if ($achat->idCli == $client->idCli)
-                            <option @selected($client->idCli) value="{{ $client->idCli }}">{{ $client->idCli }} -
+                            <option @selected($client->idCli) value="{{ $client->idCli }}">{{ $client->idCli }} |
                                 {{ $client->nom }}</option>
                         @else
                             <option value="{{ $client->idCli }}">{{ $client->idCli }} | {{ $client->nom }}</option>
@@ -46,7 +46,7 @@
                                 @if ($achat->exists)
                                     @if ($achat->idVoit == $voiture->idVoit)
                                         <option @selected($voiture->idVoit) value="{{ $voiture->idVoit }}">
-                                            {{ $voiture->idVoit }} - {{ $voiture->Design }}</option>
+                                            {{ $voiture->idVoit }} | {{ $voiture->Design }}</option>
                                     @else
                                         <option value="{{ $voiture->idVoit }}">{{ $voiture->idVoit }} |
                                             {{ $voiture->Design }}</option>

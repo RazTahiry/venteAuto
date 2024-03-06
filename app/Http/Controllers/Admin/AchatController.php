@@ -184,6 +184,7 @@ class AchatController extends Controller
         }
     }
 
+    // Methode pour traduire un chiffre en lettre
     public function chiffreEnLettre($chiffre)
     {
         // create the number to words "manager" class
@@ -196,7 +197,7 @@ class AchatController extends Controller
         return $chiffreEnLettre;
     }
 
-
+    // Methode pour permettre de visualiser la facture
     public function viewPDF(Request $request)
     {
         try {
@@ -229,6 +230,48 @@ class AchatController extends Controller
                 ], compact('voitures', 'clients',));
 
                 return $pdf->stream();
+            } else {
+                // Gérer le cas où l'achat n'a pas de client associé
+                return redirect()->back()->with('error', 'L\'achat n\'a pas de client associé.');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Erreur lors de la création du facture... Erreur: ' . $e->getMessage());
+        }
+    }
+
+    // Methode pour permettre de télecharger la facture
+    public function downloadPDF(Request $request)
+    {
+        try {
+
+            $achatId = $request->input('numAchat');
+            $achat = Achat::findOrFail($achatId);
+
+            Carbon::setLocale('fr');
+            $date = Carbon::parse($achat->date);
+            $dateFormatee = $date->translatedFormat('d F Y');
+
+            // Vérifier si l'achat a un client associé
+            if ($achat->client) {
+                $client = $achat->client;
+                $achatsMemeClientEtDate = Achat::where('idCli', $client->idCli)
+                    ->whereDate('date', $achat->date)
+                    ->get();
+
+                // Numero de la facture
+                $numFact = intval(substr($achatsMemeClientEtDate[0]->numAchat, 2));
+
+                $voitures = Voiture::all();
+                $clients = Client::all();
+
+                $pdf = PDF::loadView('admin.achats.facture', [
+                    'achats' => $achatsMemeClientEtDate,
+                    'client' => $client,
+                    'dateFormatee' => $dateFormatee,
+                    'numFact' => $numFact
+                ], compact('voitures', 'clients',));
+
+                return $pdf->download('facture' . rand(9999, 99999) . '.pdf');
             } else {
                 // Gérer le cas où l'achat n'a pas de client associé
                 return redirect()->back()->with('error', 'L\'achat n\'a pas de client associé.');

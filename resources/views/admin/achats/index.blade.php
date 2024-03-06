@@ -60,12 +60,42 @@
                     <td class="text-center"> {{ $achat->qte }} </td>
                     <td class="p-1">
                         <div class="d-flex justify-content-end">
-                            <form action="{{ route('view-pdf') }}" method="POST" target="_blank">
-                                @csrf
-                                <input type="hidden" name="numAchat" value="{{ $achat->numAchat }}">
-                                <button id="aEdit" class="btn btn-sm btn-secondary" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="Facture"><i class="bi bi-file-earmark-pdf"></i></button>
-                            </form>
+                            <button id="aEdit" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#pdf_{{ $achat->numAchat }}" data-bs-placement="top" title="Facture">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                            </button>
+
+                            <div class="modal fade" id="pdf_{{ $achat->numAchat }}" tabindex="-1"
+                                aria-labelledby="pdfLabel_{{ $achat->numAchat }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="pdfLabel_{{ $achat->numAchat }}">
+                                                Facture</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Que voulez-vous faire?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="{{ route('view-pdf') }}" method="POST" target="_blank">
+                                                @csrf
+                                                <input type="hidden" name="numAchat" value="{{ $achat->numAchat }}">
+                                                <button type="submit" class="btn btn-dark">Visualiser la
+                                                    facture</button>
+                                            </form>
+                                            <form action="{{ route('download-pdf') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="numAchat" value="{{ $achat->numAchat }}">
+                                                <button type="submit" class="btn btn-success">Télecharger la
+                                                    facture</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <a href="{{ route('admin.achat.edit', $achat) }}" class="btn btn-sm btn-dark"
                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Editer" style="border-radius: 0;"><i
                                     class="bi bi-pencil-square"></i></a>
@@ -100,6 +130,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </td>
                 </tr>

@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap-icons/font/bootstrap-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/apps.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('Favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('Favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('Favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('Favicon/site.webmanifest') }}">
 </head>
 
 <body>

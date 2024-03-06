@@ -6,7 +6,7 @@
 
     <h1 class="d-flex justify-content-center align-items-center mb-3">@yield('title')</h1>
 
-    <form class="col col-lg-6 mx-auto align-items-center p-4 rounded shadow bg-light"
+    <form class="col col-lg-6 mx-auto align-items-center p-4 rounded shadow-lg"
         action="{{ route($voiture->exists ? 'admin.voiture.update' : 'admin.voiture.store', $voiture) }}" method="POST">
 
         @csrf

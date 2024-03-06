@@ -56,7 +56,7 @@
     <div class="container mt-4">
         <div class="col" id="tabBox">
             <div class="text-center">
-                <h5 class="fs-8">Récette accumulée pour les 6 derniers mois</h5>
+                <h5>Récette accumulée pour les 6 derniers mois</h5>
             </div>
             <table class="table table-striped table-bordered shadow-sm">
                 <thead class="table-dark">
