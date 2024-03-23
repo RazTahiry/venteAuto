@@ -24,7 +24,20 @@ class VoitureFormRequest extends FormRequest
         return [
             'Design' => ['required'],
             'prix' => ['required', 'integer', 'min:1000000'],
-            'nombre' => ['required', 'integer', 'min:0']
+            'nombre' => ['required', 'integer', 'min:1']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'Design.required' => 'Désignation requise',
+            'prix.min' => 'Prix minimum: 1.000.000',
+            'prix.required' => 'Prix requis',
+            'prix.integer' => 'Prix invalide',
+            'nombre.min' => "Nombre non valide",
+            'nombre.required' => 'Nombre requis',
+            'nombre.integer' => 'Nombre invalide',
         ];
     }
 }

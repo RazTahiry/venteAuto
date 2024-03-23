@@ -26,4 +26,14 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'min:4']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'Email requis',
+            'email.email' => 'Email invalide',
+            'password.required' => 'Mot de passe requis',
+            'password.min' => "Mot de passe trop court"
+        ];
+    }
 }

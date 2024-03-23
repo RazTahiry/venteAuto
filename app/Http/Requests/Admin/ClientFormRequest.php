@@ -26,4 +26,13 @@ class ClientFormRequest extends FormRequest
             'contact' => ['required', 'min:10']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'nom.required' => 'Nom du client requis',
+            'contact.min' => 'Le contact doit être 10 caractères au minimum',
+            'contact.required' => "Contact requis"
+        ];
+    }
 }

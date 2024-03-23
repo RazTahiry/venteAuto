@@ -28,4 +28,16 @@ class AchatFormRequest extends FormRequest
             'qte' => ['required', 'integer', 'min:1']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'idCli.required' => 'Client requis',
+            'idVoit.required' => "Voiture requise",
+            'date.required' => "Date requise",
+            'qte.required' => "Quantité requis",
+            'qte.min' => 'Quantité minimum: 1',
+            'qte.integer' => 'Quantité invalide'
+        ];
+    }
 }
